@@ -12,7 +12,7 @@
             <th>Time</th>
             <th>Date</th>
           </tr>
-          <tr class="item" v-for="route in routes" :key="route.id">
+          <tr class="item" v-for="route in routes" :key="route.id"> <!-- Käime listi läbi-->
             <td>{{ route.fromcity }} </td>
             <td>{{ route.tocity}} </td>
             <!-- <td> {{ route.cost}}</td> -->
@@ -26,7 +26,7 @@
           </table>
     </div>
     <div class ='counters'  >
-            <p> We have  {{ routes.length }} trips today! </p>
+      <p> We have  {{ routes.length }} trips today! </p>
     </div>
   </div>
 </template>
@@ -43,10 +43,10 @@ export default {
     };
   },
   methods: {
-    fetchRouts() {
+    fetchRouts() { //See fetchib routes meile, peab olema mounted all
       fetch(`http://localhost:3000/api/routes/`)
         .then((response) => response.json())
-        .then((data) => (this.routes = data))
+        .then((data) => (this.routes = data)) //Pannakse Routes muutujasse, mis on defineeritud üleval
         .catch((err) => console.log(err.message));
    },
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Routes Management Pannel</h1>
+  <h2>Routes Management Pannel</h2>
   <div class="container">
           <table>
           <tr>
@@ -28,9 +28,10 @@
             <td><input name="tocity" type="text" id="tocityAdd" placeholder="To" required v-model="ARoute.tocity"></td>
             <td><input name="cost" type="number" id="costAdd" placeholder="Cost" required v-model="ARoute.cost"></td>
             <td><input name="time" type="text" id="timeAdd" placeholder="Departure time" required v-model="ARoute.departuretime"></td>
-            <td><input name="date" type="text" id="dateAdd"   required v-model="ARoute.departuredate"></td>
+            <td><input name="date" type="text" id="dateAdd" placeholder="Departure add"  required v-model="ARoute.departuredate"></td>
     </div>
-    <button class="add"  @click="addRoute(ARoute)"> Add  </button>
+    <button class="add"  @click="addRoute(ARoute)">Add Route</button>
+    <button class="delete"  @click="deleteAll()"> Delete  </button>
   </div>
 </template>
 
@@ -96,12 +97,25 @@ export default {
       })
         .then((response) => {
           //console.log(response.data);
-          this.$router.push("/routemanagement'");
+          //window.location.reload(); 
+          this.$router.push("/");
         })
         .catch((e) => {
           console.log(e);
         });
-    }, 
+    },
+    deleteAll(){
+      fetch(`http://localhost:3000/api/routes`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => {
+          this.$router.push("/");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   },
   mounted() {
     this.fetchRouts();

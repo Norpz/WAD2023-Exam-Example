@@ -56,8 +56,9 @@ app.put('/api/routes/:id', async(req, res) => {
         const route = req.body;
         console.log("An update request has arrived");
         const updateroute = await pool.query(
-            "UPDATE routes SET (id, fromcity, tocity, cost, departuretime, departuredate) = ($1, $2, $3, $4, $5, $6) WHERE id = $1 RETURNING*", [id, route.fromcity, route.tocity, route.cost, route.departuretime, route.departuredate]
-        );
+            //"UPDATE routes SET (id, fromcity, tocity, cost, departuretime, departuredate) = ($1, $2, $3, $4, $5, $6) WHERE id = $1 RETURNING*", [id, route.fromcity, route.tocity, route.cost, route.departuretime, route.departuredate]
+            "UPDATE routes SET (id, departuretime, departuredate) = ($1, $2, $3) WHERE id = $1 RETURNING*", [id, route.departuretime, route.departuredate]
+            );
         res.json(updateroute);
     } catch (err) {
         console.error(err.message);
@@ -72,6 +73,18 @@ app.delete('/api/routes/:id', async(req, res) => {
             "DELETE FROM routes WHERE id = $1 RETURNING*", [id]
         );
         res.json(deletepost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.delete('/api/routes', async(req, res) => {
+    try {
+        console.log("A delete all request has arrived");
+        const routes = await pool.query(
+            "DELETE FROM routes"
+        );
+        res.json(routes);
     } catch (err) {
         console.error(err.message);
     }
